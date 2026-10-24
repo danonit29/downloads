@@ -1,0 +1,796 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ShareVina Downloads</title>
+<style>
+  :root {
+    --bg-body: #06040a;
+    --bg-topbar: rgba(13, 11, 23, 0.85);
+    --bg-container: #100e1a;
+    --bg-banner: #171424;
+    --bg-hover: #1c192b;
+    --border-color: #29253b;
+    --border-light: #332e47;
+    --text-main: #f1f5f9;
+    --text-muted: #8b92a5;
+    --primary: #3b82f6;
+    --folder-color: #60a5fa;
+    
+    --btn-copy: #6a4c9c;
+    --btn-copy-hover: #5a3e86;
+    --btn-download: #1d4ed8;
+    --btn-download-hover: #1e40af;
+    
+    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background-color: var(--bg-body);
+    color: var(--text-main);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background-image: radial-gradient(circle at 50% 0%, rgba(59, 130, 246, 0.08) 0%, transparent 50%);
+    background-attachment: fixed;
+  }
+
+  /* HEADER */
+  .topbar {
+    display: flex; justify-content: center; align-items: center; gap: 24px;
+    background-color: var(--bg-topbar); 
+    backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border-color);
+    height: 64px; position: sticky; top: 0; z-index: 40;
+    transition: var(--transition-smooth);
+  }
+
+  .logo-area { cursor: pointer; display: flex; align-items: center; transition: var(--transition-smooth); }
+  .logo-area:hover { transform: scale(1.05); }
+  .logo-area svg { width: 34px; height: 34px; }
+
+  .search-group { 
+    display: flex; align-items: center; gap: 10px; cursor: pointer; 
+    background: var(--bg-container); padding: 8px 16px; border-radius: 20px;
+    border: 1px solid var(--border-color); transition: var(--transition-smooth);
+  }
+  .search-group:hover { border-color: var(--border-light); background: var(--bg-hover); }
+  .search-icon { color: var(--text-muted); transition: var(--transition-smooth); }
+  .search-group:hover .search-icon { color: var(--text-main); }
+  .shortcut-badge {
+    font-size: 11px; color: var(--text-muted); border: 1px solid var(--border-color); 
+    padding: 2px 6px; border-radius: 6px; font-weight: 600; background: var(--bg-body);
+  }
+
+  .view-dropdown { position: relative; }
+  .menu-btn {
+    background: rgba(59, 130, 246, 0.1); color: var(--primary); border: 1px solid rgba(59, 130, 246, 0.2); 
+    padding: 8px 12px; border-radius: 8px; cursor: pointer; display: flex; align-items: center; gap: 8px;
+    transition: var(--transition-smooth);
+  }
+  .menu-btn:hover { background: rgba(59, 130, 246, 0.2); transform: translateY(-1px); }
+
+  .dropdown-menu {
+    display: none; position: absolute; right: 0; top: calc(100% + 10px);
+    background: rgba(23, 20, 36, 0.95); backdrop-filter: blur(10px);
+    border: 1px solid var(--border-light); border-radius: 12px;
+    padding: 8px; min-width: 160px; box-shadow: 0 10px 30px rgba(0,0,0,0.6); z-index: 100;
+    animation: fadeInDown 0.2s ease forwards;
+  }
+  .view-dropdown.active .dropdown-menu { display: block; }
+
+  .dropdown-item {
+    display: flex; align-items: center; gap: 12px; padding: 10px 14px; font-size: 14px;
+    color: var(--text-main); border-radius: 8px; cursor: pointer; transition: var(--transition-smooth);
+  }
+  .dropdown-item:hover { background: var(--bg-hover); padding-left: 18px; }
+  .dropdown-item.active { background: rgba(59, 130, 246, 0.15); color: var(--primary); font-weight: 500; }
+  .dropdown-item svg { color: var(--text-muted); transition: var(--transition-smooth); }
+  .dropdown-item.active svg { color: var(--primary); }
+
+  /* MAIN CONTAINER */
+  .main-wrapper {
+    flex: 1; display: flex; flex-direction: column; align-items: center;
+    padding: 32px 16px 60px; width: 100%;
+  }
+
+  .content-box {
+    background-color: var(--bg-container);
+    border: 1px solid var(--border-color); border-radius: 16px;
+    display: flex; flex-direction: column; overflow: hidden; width: 100%; max-width: 900px;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+    animation: slideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+
+  /* BANNER */
+  .banner {
+    background-color: var(--bg-banner); margin: 20px 20px 0 20px;
+    border-radius: 12px; padding: 24px; border: 1px solid var(--border-light);
+    animation: fadeIn 0.6s ease forwards;
+  }
+  .banner-title { display: flex; align-items: center; gap: 12px; font-size: 18px; font-weight: 600; margin-bottom: 14px; }
+  .banner-title svg { color: var(--primary); }
+  .banner-desc { font-size: 14px; color: var(--text-main); margin-bottom: 18px; }
+  .banner-list { list-style: none; font-size: 14px; color: var(--text-muted); display: flex; flex-direction: column; gap: 12px; }
+  .banner-list li { display: flex; align-items: flex-start; gap: 10px; line-height: 1.5; }
+  .banner-list li::before { content: "•"; color: var(--text-muted); }
+  .banner-list span { background: rgba(59, 130, 246, 0.15); padding: 2px 8px; border-radius: 6px; font-family: monospace; color: #93c5fd; }
+
+  /* BREADCRUMB */
+  .breadcrumb-bar {
+    padding: 16px 24px; display: flex; align-items: center; flex-wrap: wrap; gap: 10px; font-size: 14px;
+    border-bottom: 1px solid var(--border-color); background-color: transparent;
+  }
+  .breadcrumb-bar a { color: var(--text-main); text-decoration: none; display: flex; align-items: center; gap: 8px; transition: var(--transition-smooth); }
+  .breadcrumb-bar a:hover { color: var(--primary); transform: translateX(2px); }
+  .breadcrumb-bar .sep { color: var(--text-muted); opacity: 0.5; }
+  .breadcrumb-bar .current { color: var(--text-muted); }
+
+  /* FILE LIST */
+  .file-list-container { padding: 16px 24px 24px; flex: 1; }
+
+  .table-header {
+    display: grid; grid-template-columns: 1fr 120px 180px; padding: 12px 16px;
+    font-size: 13px; font-weight: 600; color: var(--text-muted); 
+    border-bottom: 1px solid var(--border-color); text-transform: uppercase; letter-spacing: 0.5px;
+  }
+  .table-header span:nth-child(2), .table-header span:nth-child(3) { text-align: right; }
+
+  .file-row {
+    display: grid; grid-template-columns: 1fr 120px 180px; padding: 14px 16px; align-items: center;
+    border-bottom: 1px solid rgba(41, 37, 59, 0.5); text-decoration: none; color: var(--text-main);
+    transition: var(--transition-smooth); cursor: pointer; border-radius: 8px; margin-top: 4px;
+  }
+  .file-row:hover { background-color: var(--bg-hover); transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.2); }
+  .file-name-cell { display: flex; align-items: center; gap: 14px; font-size: 14px; font-weight: 500; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+  .file-name-cell svg { flex: none; color: var(--folder-color); transition: var(--transition-smooth); }
+  .file-row:hover .file-name-cell svg { transform: scale(1.1); }
+  .file-row:hover .file-name-text { color: var(--primary); }
+  .size-cell, .date-cell { text-align: right; font-size: 14px; color: var(--text-muted); }
+
+  /* Grid View */
+  .view-grid .table-header { display: none; }
+  .view-grid .file-list-wrapper {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 16px; margin-top: 16px;
+  }
+  .view-grid .file-row {
+    display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;
+    padding: 24px 16px; border: 1px solid var(--border-color); border-radius: 12px; gap: 14px; background: var(--bg-banner);
+  }
+  .view-grid .file-row:hover { border-color: var(--border-light); box-shadow: 0 8px 24px rgba(0,0,0,0.4); }
+  .view-grid .file-name-cell { flex-direction: column; width: 100%; gap: 10px; white-space: normal; }
+  .view-grid .file-name-cell svg { width: 44px; height: 44px; }
+  .view-grid .size-cell, .view-grid .date-cell { display: none; }
+
+  /* DETAIL VIEW */
+  .detail-wrapper { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 60px 24px; animation: scaleIn 0.4s ease forwards; }
+  .detail-name { font-size: 22px; font-weight: 600; margin: 24px 0 12px; color: var(--text-main); text-align: center; }
+  .detail-meta { font-size: 14px; color: var(--text-muted); margin-bottom: 36px; display: flex; gap: 10px; align-items: center; }
+  .detail-actions { display: flex; gap: 16px; }
+  
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center; padding: 12px 28px;
+    border-radius: 10px; font-size: 15px; font-weight: 600; cursor: pointer; border: none; text-decoration: none; 
+    transition: var(--transition-smooth); color: white;
+  }
+  .btn-copy { background-color: var(--btn-copy); box-shadow: 0 4px 15px rgba(106, 76, 156, 0.3); }
+  .btn-copy:hover { background-color: var(--btn-copy-hover); transform: translateY(-2px); box-shadow: 0 6px 20px rgba(106, 76, 156, 0.4); }
+  .btn-download { background-color: var(--btn-download); box-shadow: 0 4px 15px rgba(29, 78, 216, 0.3); }
+  .btn-download:hover { background-color: var(--btn-download-hover); transform: translateY(-2px); box-shadow: 0 6px 20px rgba(29, 78, 216, 0.4); }
+
+  /* =========================================
+     SEARCH MODAL (CẬP NHẬT THEO ẢNH)
+     ========================================= */
+  .modal-overlay {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.7); backdrop-filter: blur(4px);
+    display: flex; align-items: flex-start; justify-content: center;
+    z-index: 1000; opacity: 0; pointer-events: none;
+    transition: opacity 0.3s ease; padding-top: 8vh;
+  }
+  .modal-overlay.active { opacity: 1; pointer-events: auto; }
+
+  .search-modal {
+    background: #181621; border: 1px solid var(--border-light);
+    border-radius: 12px; width: 100%; max-width: 650px;
+    box-shadow: 0 24px 60px rgba(0,0,0,0.8);
+    display: flex; flex-direction: column;
+    transform: translateY(-20px) scale(0.98);
+    transition: var(--transition-smooth);
+  }
+  .modal-overlay.active .search-modal { transform: translateY(0) scale(1); }
+
+  .modal-header {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 20px 24px;
+  }
+  .modal-header h2 { font-size: 18px; font-weight: 600; color: var(--text-main); letter-spacing: 0.5px; }
+  .close-btn {
+    background: none; border: none; color: var(--text-muted); cursor: pointer;
+    font-size: 20px; transition: var(--transition-smooth); display: flex; align-items: center; justify-content: center;
+  }
+  .close-btn:hover { color: #fff; transform: scale(1.1); }
+
+  /* Thanh Nhập Liệu */
+  .modal-search-bar {
+    display: flex; gap: 12px; padding: 0 24px 16px 24px;
+  }
+  
+  /* Ô Dropdown All */
+  .search-bar-select {
+    background: transparent;
+    border: 1px solid #3b82f6; /* Viền xanh */
+    color: var(--text-main);
+    padding: 10px 16px;
+    border-radius: 8px;
+    outline: none;
+    cursor: pointer;
+    font-size: 15px;
+    font-weight: 500;
+    appearance: none; /* Xóa mũi tên mặc định */
+    -webkit-appearance: none;
+    background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23f1f5f9%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px top 50%;
+    background-size: 10px auto;
+    padding-right: 32px;
+  }
+
+  /* Ô Input */
+  .search-bar-input {
+    flex: 1;
+    background: #242130; /* Nền xám đậm */
+    border: 1px solid transparent;
+    color: var(--text-main);
+    padding: 10px 16px;
+    border-radius: 8px;
+    outline: none;
+    font-size: 15px;
+    transition: var(--transition-smooth);
+  }
+  .search-bar-input:focus { border-color: #4b5563; }
+  .search-bar-input::placeholder { color: transparent; } /* Ẩn placeholder giống ảnh */
+
+  /* Nút Kính lúp */
+  .search-bar-btn {
+    background: #242130;
+    border: 1px solid transparent;
+    color: var(--text-muted);
+    width: 44px; height: 44px;
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer;
+    transition: var(--transition-smooth);
+  }
+  .search-bar-btn:hover { background: #2d293b; color: var(--text-main); }
+
+  /* Khu Vực Kết Quả & Bộ Lọc Bên Dưới */
+  .modal-body { display: flex; height: 280px; padding-bottom: 16px; }
+
+  .modal-sidebar {
+    width: 140px;
+    padding: 12px 24px;
+    display: flex; flex-direction: column; gap: 4px;
+  }
+  
+  .filter-item {
+    padding: 12px 16px;
+    font-size: 15px;
+    color: var(--text-main);
+    cursor: pointer;
+    transition: var(--transition-smooth);
+    display: flex; justify-content: space-between; align-items: center;
+    border-radius: 8px;
+  }
+  .filter-item:hover { background: rgba(255, 255, 255, 0.05); }
+  .filter-item.active { font-weight: 500; }
+  .filter-item .check { display: none; font-size: 16px; color: #3b82f6; font-weight: bold; }
+  .filter-item.active .check { display: block; }
+
+  .search-results {
+    flex: 1;
+    overflow-y: auto;
+    padding-right: 24px;
+    display: flex; flex-direction: column; gap: 4px;
+  }
+  .search-results::-webkit-scrollbar { width: 6px; }
+  .search-results::-webkit-scrollbar-thumb { background: var(--border-light); border-radius: 4px; }
+
+  .no-result {
+    display: flex; align-items: center; justify-content: center;
+    height: 100%; color: #fff; font-size: 20px; font-weight: 500;
+    letter-spacing: 0.5px;
+  }
+
+  .result-item {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 12px 16px; border-radius: 8px; cursor: pointer;
+    transition: var(--transition-smooth); text-decoration: none; color: var(--text-main);
+  }
+  .result-item:hover { background: var(--bg-hover); }
+  .result-left { display: flex; align-items: center; gap: 12px; overflow: hidden; }
+  .result-left svg { flex: none; color: var(--folder-color); }
+  .result-left.file svg { color: var(--text-muted); }
+  .result-name { font-size: 14px; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .result-path { font-size: 12px; color: var(--text-muted); margin-top: 4px; }
+
+  /* Toast & Animations */
+  #toast {
+    position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%) translateY(20px);
+    background: rgba(30, 41, 59, 0.95); backdrop-filter: blur(10px); color: #fff; 
+    padding: 12px 28px; border-radius: 10px; font-size: 14px; font-weight: 500;
+    opacity: 0; pointer-events: none; transition: var(--transition-smooth); 
+    border: 1px solid var(--border-light); z-index: 2000; box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+  }
+  #toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+  @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+  @keyframes scaleIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
+  @keyframes fadeInDown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .topbar { gap: 12px; padding: 0 12px; }
+    .search-group { display: none; } 
+    .table-header, .file-row { grid-template-columns: 1fr 80px; }
+    .table-header span:nth-child(3), .date-cell { display: none; }
+    .detail-actions { flex-direction: column; width: 100%; max-width: 300px; }
+    .btn { width: 100%; }
+    .modal-body { flex-direction: column; height: 400px; }
+    .modal-sidebar { width: 100%; flex-direction: row; padding: 12px 24px; overflow-x: auto; }
+    .search-results { padding: 0 24px; }
+  }
+</style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header class="topbar">
+    <div class="logo-area" onclick="window.location.hash='#/'">
+      <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M4 12C4 9.79086 5.79086 8 8 8H13L16 11H22C24.2091 11 26 12.7909 26 15V23C26 25.2091 24.2091 27 22 27H8C5.79086 27 4 25.2091 4 23V12Z" fill="#3B82F6"/>
+        <path d="M11 20C11 17.7909 12.7909 16 15 16H20L23 19H27C29.2091 19 31 20.7909 31 23V28C31 30.2091 29.2091 32 27 32H13C10.7909 32 9 30.2091 9 28V20H11Z" fill="#F59E0B" opacity="0.9"/>
+      </svg>
+    </div>
+    
+    <div class="search-group" onclick="openSearch()">
+      <svg class="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+      <div class="shortcut-badge">Ctrl K</div>
+    </div>
+    
+    <div class="view-dropdown" id="view-dropdown">
+      <button class="menu-btn" onclick="toggleDropdown(event)">
+        <svg id="current-view-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line>
+        </svg>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+      </button>
+      <div class="dropdown-menu">
+        <div class="dropdown-item active" onclick="setViewMode('list')" id="btn-view-list">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line></svg>
+          List View
+        </div>
+        <div class="dropdown-item" onclick="setViewMode('grid')" id="btn-view-grid">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+          Grid View
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN CONTENT -->
+  <main class="main-wrapper">
+    <div class="content-box" id="content-box">
+      <!-- Nội dung sẽ được render bởi JS -->
+    </div>
+  </main>
+
+  <!-- SEARCH MODAL -->
+  <div class="modal-overlay" id="search-modal">
+    <div class="search-modal">
+      
+      <div class="modal-header">
+        <h2>Search</h2>
+        <button class="close-btn" onclick="closeSearch()">✕</button>
+      </div>
+      
+      <!-- Thanh nhập liệu gồm select, input, button -->
+      <div class="modal-search-bar">
+        <select class="search-bar-select" id="search-type-select" onchange="handleSearch()">
+          <option value="all">All</option>
+          <option value="folder">Folder</option>
+          <option value="file">File</option>
+        </select>
+        <input type="text" class="search-bar-input" id="modal-search-input" oninput="handleSearch()" autocomplete="off">
+        <button class="search-bar-btn">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+        </button>
+      </div>
+      
+      <div class="modal-body">
+        <!-- Cột trái (Bộ lọc) -->
+        <div class="modal-sidebar">
+          <div class="filter-item active" onclick="setSearchFilter('all', this)">
+            All <span class="check">✓</span>
+          </div>
+          <div class="filter-item" onclick="setSearchFilter('folder', this)">
+            Folder <span class="check">✓</span>
+          </div>
+          <div class="filter-item" onclick="setSearchFilter('file', this)">
+            File <span class="check">✓</span>
+          </div>
+        </div>
+        
+        <!-- Cột phải (Kết quả) -->
+        <div class="search-results" id="search-results">
+          <div class="no-result">No result yet</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div id="toast">Đã sao chép!</div>
+
+<script>
+/* =====================================================================
+   DỮ LIỆU
+   ===================================================================== */
+const FILES = [
+  { name: 'Android-Software', type: 'folder', path: [], date: '2026-10-17 05:42:41' },
+  { name: 'Game', type: 'folder', path: [], date: '2026-10-20 15:04:52' },
+  { name: 'Library', type: 'folder', path: [], date: '2026-10-01 07:47:40' },
+  { name: 'Windows-Software', type: 'folder', path: [], date: '2026-10-17 05:43:38' },
+  { name: 'Avatar Frontiers of Pandora', type: 'folder', path: ['Game'], date: '2026-08-11 15:18:43' },
+  { name: 'Custom Maid 3D2', type: 'folder', path: ['Game'], date: '2026-08-11 15:18:27' },
+  { name: 'GTA-5', type: 'folder', path: ['Game'], date: '2026-05-11 04:03:31' },
+  { name: 'Marvels Spider Man', type: 'folder', path: ['Game'], date: '2026-08-11 23:33:21' },
+  { 
+    name: 'Avatar-Frontiers-of-Pandora.zip', type: 'file', size: '130.02G', date: '2026-09-07 02:45:16', 
+    path: ['Game', 'Avatar Frontiers of Pandora'], url: 'https://www.google.com/search?q=Avatar+Frontiers+of+Pandora' 
+  }
+];
+
+/* =====================================================================
+   LOGIC XỬ LÝ CHÍNH
+   ===================================================================== */
+const contentBox = document.getElementById('content-box');
+let currentPath = []; 
+let viewMode = 'list';
+let currentSearchFilter = 'all';
+
+// Icons
+const ZIP_ICON = `
+  <svg width="80" height="90" viewBox="0 0 100 110" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <linearGradient id="zipGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#4ade80" />
+        <stop offset="100%" stop-color="#3b82f6" />
+      </linearGradient>
+    </defs>
+    <path d="M10 0 H70 L100 30 V100 A10 10 0 0 1 90 110 H10 A10 10 0 0 1 0 100 V10 A10 10 0 0 1 10 0 Z" fill="url(#zipGrad)"/>
+    <path d="M70 0 L100 30 H80 A10 10 0 0 1 70 20 Z" fill="#ffffff" opacity="0.3"/>
+    <text x="50" y="70" font-family="Arial, sans-serif" font-size="24" font-weight="900" fill="#ffffff" text-anchor="middle">ZIP</text>
+  </svg>
+`;
+const RAR_ICON = `
+  <svg width="80" height="90" viewBox="0 0 100 110" xmlns="http://www.w3.org/2000/svg">
+    <path d="M10 0 H70 L100 30 V100 A10 10 0 0 1 90 110 H10 A10 10 0 0 1 0 100 V10 A10 10 0 0 1 10 0 Z" fill="#eab308"/>
+    <path d="M70 0 L100 30 H80 A10 10 0 0 1 70 20 Z" fill="#ca8a04"/>
+    <text x="50" y="70" font-family="Arial, sans-serif" font-size="24" font-weight="900" fill="#ffffff" text-anchor="middle">RAR</text>
+  </svg>
+`;
+const FOLDER_ICON = `<svg width="20" height="20" viewBox="0 0 24 24" fill="var(--folder-color)" stroke="var(--folder-color)" stroke-width="1.5"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path></svg>`;
+const FILE_ICON = `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="2"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"></path><polyline points="13 2 13 9 20 9"></polyline></svg>`;
+
+// Hàm Render Giao diện
+function buildBreadcrumb(pathArray, isFileView = false, fileName = '') {
+  let html = `<a href="#/">🏠 Home</a>`;
+  pathArray.forEach((folder, index) => {
+    const folderPath = pathArray.slice(0, index + 1);
+    const encodedPath = encodeURIComponent(JSON.stringify(folderPath));
+    html += ` <span class="sep">/</span> <a href="#/folder/${encodedPath}">${folder}</a>`;
+  });
+  if (isFileView && fileName) {
+    html += ` <span class="sep">/</span> <span class="current">${fileName}</span>`;
+  }
+  return `<div class="breadcrumb-bar">${html}</div>`;
+}
+
+function renderListView() {
+  contentBox.style.animation = 'none';
+  contentBox.offsetHeight; 
+  contentBox.style.animation = 'slideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards';
+
+  let items = FILES.filter(item => 
+    item.path.length === currentPath.length && 
+    item.path.every((val, index) => val === currentPath[index])
+  );
+
+  items.sort((a, b) => {
+    if (a.type !== b.type) return a.type === 'folder' ? -1 : 1;
+    return a.name.localeCompare(b.name);
+  });
+
+  let html = '';
+  
+  if (currentPath.length === 0) {
+    html += `
+      <div class="banner">
+        <div class="banner-title">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
+          ShareVina Downloads
+        </div>
+        <div class="banner-desc">Kho lưu trữ và chia sẻ tài nguyên, phần mềm số tốc độ cao.</div>
+        <ul class="banner-list">
+          <li><strong>Tìm kiếm:</strong> Nhấn <b>Ctrl + K</b> để tìm file nhanh.</li>
+          <li><strong>Mật khẩu giải nén (nếu có):</strong> <span>sharevina.com</span></li>
+          <li><strong>Lưu ý:</strong> Quét mã độc trước khi mở tệp và chỉ sử dụng cho mục đích học tập, thử nghiệm.</li>
+        </ul>
+      </div>
+    `;
+  }
+
+  html += buildBreadcrumb(currentPath);
+  html += `<div class="file-list-container view-${viewMode}">`;
+  
+  if (viewMode === 'list') {
+    html += `<div class="table-header"><span>Name</span><span>Size</span><span>Modified</span></div>`;
+  }
+
+  html += `<div class="file-list-wrapper">`;
+
+  if (items.length === 0) {
+    html += `<div style="padding: 40px; text-align: center; color: var(--text-muted); grid-column: 1 / -1;">Thư mục trống</div>`;
+  } else {
+    items.forEach(item => {
+      const isFolder = item.type === 'folder';
+      const icon = isFolder ? FOLDER_ICON : FILE_ICON;
+      const size = isFolder ? '-' : item.size;
+      const date = item.date || '-';
+      
+      let clickAction = '';
+      if (isFolder) {
+        const newPath = [...currentPath, item.name];
+        const encodedPath = encodeURIComponent(JSON.stringify(newPath));
+        clickAction = `onclick="window.location.hash = '#/folder/${encodedPath}'"`;
+      } else {
+        const encodedFile = encodeURIComponent(item.name);
+        const encodedPath = encodeURIComponent(JSON.stringify(item.path));
+        clickAction = `onclick="window.location.hash = '#/file/${encodedPath}/${encodedFile}'"`;
+      }
+
+      html += `
+        <div class="file-row" ${clickAction}>
+          <div class="file-name-cell">${icon} <span class="file-name-text">${item.name}</span></div>
+          <div class="size-cell">${size}</div>
+          <div class="date-cell">${date}</div>
+        </div>
+      `;
+    });
+  }
+  
+  html += `</div></div>`;
+  contentBox.innerHTML = html;
+}
+
+function renderDetailView(filePathArray, fileName) {
+  const file = FILES.find(f => 
+    f.name === fileName && f.type === 'file' && JSON.stringify(f.path) === JSON.stringify(filePathArray)
+  );
+
+  if (!file) { window.location.hash = '#/'; return; }
+
+  const icon = file.name.endsWith('.zip') ? ZIP_ICON : RAR_ICON;
+
+  let html = `
+    ${buildBreadcrumb(file.path, true, file.name)}
+    <div class="detail-wrapper">
+      <div class="detail-icon-container">${icon}</div>
+      <h1 class="detail-name">${file.name}</h1>
+      <div class="detail-meta">
+        <span>${file.size}</span><span>·</span><span>${file.date}</span>
+      </div>
+      <div class="detail-actions">
+        <button class="btn btn-copy" onclick="copyLink('${file.url}')">Copy link</button>
+        <a href="${file.url}" target="_blank" class="btn btn-download">Download</a>
+      </div>
+    </div>
+  `;
+  contentBox.innerHTML = html;
+}
+
+/* =====================================================================
+   MODAL TÌM KIẾM LOGIC
+   ===================================================================== */
+const searchModal = document.getElementById('search-modal');
+const searchInput = document.getElementById('modal-search-input');
+const searchResults = document.getElementById('search-results');
+const searchTypeSelect = document.getElementById('search-type-select');
+
+function openSearch() {
+  searchModal.classList.add('active');
+  searchInput.value = '';
+  searchTypeSelect.value = 'all';
+  
+  document.querySelectorAll('.filter-item').forEach(el => el.classList.remove('active'));
+  document.querySelector('.filter-item').classList.add('active');
+  currentSearchFilter = 'all';
+
+  renderSearchResults(''); 
+  setTimeout(() => searchInput.focus(), 100); 
+}
+
+function closeSearch() {
+  searchModal.classList.remove('active');
+}
+
+searchModal.addEventListener('click', (e) => {
+  if (e.target === searchModal) closeSearch();
+});
+
+function setSearchFilter(type, el) {
+  currentSearchFilter = type;
+  searchTypeSelect.value = type; 
+  
+  document.querySelectorAll('.filter-item').forEach(item => item.classList.remove('active'));
+  el.classList.add('active');
+  
+  handleSearch();
+}
+
+function handleSearch() {
+  currentSearchFilter = searchTypeSelect.value; 
+  
+  document.querySelectorAll('.filter-item').forEach(item => {
+    item.classList.remove('active');
+    if(item.textContent.includes(currentSearchFilter === 'all' ? 'All' : (currentSearchFilter === 'folder' ? 'Folder' : 'File'))) {
+      item.classList.add('active');
+    }
+  });
+
+  const query = searchInput.value.trim().toLowerCase();
+  renderSearchResults(query);
+}
+
+function renderSearchResults(query) {
+  if (query === '') {
+    searchResults.innerHTML = `<div class="no-result">No result yet</div>`;
+    return;
+  }
+
+  let filtered = FILES.filter(item => {
+    const matchQuery = item.name.toLowerCase().includes(query);
+    const matchType = currentSearchFilter === 'all' || item.type === currentSearchFilter;
+    return matchQuery && matchType;
+  });
+
+  if (filtered.length === 0) {
+    searchResults.innerHTML = `<div class="no-result">No result yet</div>`;
+    return;
+  }
+
+  let html = '';
+  filtered.forEach(item => {
+    const isFolder = item.type === 'folder';
+    const icon = isFolder ? FOLDER_ICON : FILE_ICON;
+    const pathStr = item.path.length > 0 ? item.path.join(' / ') : 'Home';
+    
+    let clickAction = '';
+    if (isFolder) {
+      const newPath = [...item.path, item.name];
+      const encodedPath = encodeURIComponent(JSON.stringify(newPath));
+      clickAction = `onclick="closeSearch(); window.location.hash = '#/folder/${encodedPath}'"`;
+    } else {
+      const encodedFile = encodeURIComponent(item.name);
+      const encodedPath = encodeURIComponent(JSON.stringify(item.path));
+      clickAction = `onclick="closeSearch(); window.location.hash = '#/file/${encodedPath}/${encodedFile}'"`;
+    }
+
+    html += `
+      <div class="result-item" ${clickAction}>
+        <div class="result-left ${isFolder ? '' : 'file'}">
+          ${icon}
+          <div>
+            <div class="result-name">${item.name}</div>
+            <div class="result-path">${pathStr}</div>
+          </div>
+        </div>
+      </div>
+    `;
+  });
+  searchResults.innerHTML = html;
+}
+
+/* =====================================================================
+   CÁC TIỆN ÍCH KHÁC
+   ===================================================================== */
+function copyLink(url) {
+  navigator.clipboard.writeText(url).then(() => {
+    showToast('Đã sao chép liên kết tải xuống!');
+  }).catch(() => {
+    const ta = document.createElement('textarea');
+    ta.value = url;
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+    showToast('Đã sao chép liên kết tải xuống!');
+  });
+}
+
+function showToast(msg) {
+  const toast = document.getElementById('toast');
+  toast.textContent = msg;
+  toast.classList.add('show');
+  setTimeout(() => toast.classList.remove('show'), 2500);
+}
+
+function toggleDropdown(e) {
+  if(e) e.stopPropagation();
+  document.getElementById('view-dropdown').classList.toggle('active');
+}
+
+document.addEventListener('click', (e) => {
+  const dropdown = document.getElementById('view-dropdown');
+  if (!dropdown.contains(e.target)) {
+    dropdown.classList.remove('active');
+  }
+});
+
+function setViewMode(mode) {
+  viewMode = mode;
+  document.querySelectorAll('.dropdown-item').forEach(el => el.classList.remove('active'));
+  document.getElementById(`btn-view-${mode}`).classList.add('active');
+  
+  const currentIcon = document.getElementById('current-view-icon');
+  if (mode === 'list') {
+    currentIcon.innerHTML = `<line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line>`;
+  } else if (mode === 'grid') {
+    currentIcon.innerHTML = `<rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect>`;
+  }
+
+  document.getElementById('view-dropdown').classList.remove('active');
+  router(); 
+}
+
+document.addEventListener('keydown', (e) => {
+  if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+    e.preventDefault();
+    openSearch();
+  }
+  if (e.key === 'Escape') {
+    closeSearch();
+  }
+});
+
+function router() {
+  const hash = window.location.hash || '#/';
+  
+  if (hash.startsWith('#/file/')) {
+    const parts = hash.split('/');
+    const pathArray = JSON.parse(decodeURIComponent(parts[2]));
+    const fileName = decodeURIComponent(parts[3]);
+    renderDetailView(pathArray, fileName);
+  } 
+  else if (hash.startsWith('#/folder/')) {
+    const encodedPath = hash.replace('#/folder/', '');
+    currentPath = JSON.parse(decodeURIComponent(encodedPath));
+    renderListView();
+  } 
+  else {
+    currentPath = [];
+    renderListView();
+  }
+}
+
+window.addEventListener('hashchange', router);
+router();
+</script>
+</body>
+</html>

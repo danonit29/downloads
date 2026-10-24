@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ShareVina Downloads</title>
+<style>
+  :root {
+    --bg-color: #0a0914;
+    --panel-bg: #131120;
+    --panel-border: #252238;
+    --text-main: #f1f5f9;
+    --text-muted: #8b92a5;
+    --btn-copy: #5c4b8a;
+    --btn-copy-hover: #4b3d72;
+    --btn-download: #1d4ed8;
+    --btn-download-hover: #1e40af;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-main);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background-image: radial-gradient(circle at 50% 0%, rgba(29, 78, 216, 0.05) 0%, transparent 50%);
+  }
+
+  /* ----- TOP NAVBAR ----- */
+  .topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 24px;
+    background-color: var(--bg-color);
+    border-bottom: 1px solid var(--panel-border);
+  }
+
+  .logo svg { width: 32px; height: 32px; }
+
+  .topbar-right {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .search-container {
+    display: flex;
+    align-items: center;
+    background: var(--panel-bg);
+    border: 1px solid var(--panel-border);
+    border-radius: 8px;
+    padding: 6px 12px;
+    width: 250px;
+  }
+
+  .search-container svg { color: var(--text-muted); margin-right: 8px; }
+  .search-container input {
+    background: transparent; border: none; color: var(--text-main); outline: none; width: 100%; font-size: 14px;
+  }
+
+  .shortcut-badge {
+    font-size: 11px; color: var(--text-muted); border: 1px solid var(--panel-border); padding: 2px 6px; border-radius: 6px; font-weight: 600;
+  }
+
+  .menu-btn {
+    background: rgba(59, 130, 246, 0.1); color: #3b82f6; border: none; padding: 8px; border-radius: 8px; cursor: pointer; display: flex;
+  }
+
+  /* ----- MAIN CONTAINER ----- */
+  .container {
+    max-width: 1000px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 24px 20px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  /* ----- BREADCRUMB ----- */
+  .breadcrumb-bar {
+    background-color: var(--panel-bg);
+    border: 1px solid var(--panel-border);
+    border-radius: 8px;
+    padding: 14px 20px;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+    font-size: 14px;
+  }
+  
+  .breadcrumb-bar a {
+    color: var(--text-main);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  
+  .breadcrumb-bar a:hover { color: #3b82f6; }
+  .breadcrumb-bar .sep { color: var(--text-muted); }
+  .breadcrumb-bar .current { color: var(--text-muted); }
+
+  /* ----- BANNER INFO ----- */
+  .banner {
+    background-color: var(--panel-bg);
+    border: 1px solid var(--panel-border);
+    border-radius: 12px;
+    padding: 24px;
+  }
+
+  .banner-title {
+    display: flex; align-items: center; gap: 12px; font-size: 18px; font-weight: 600; margin-bottom: 12px;
+  }
+  .banner-title svg { color: #3b82f6; }
+  .banner-desc { font-size: 14px; color: var(--text-muted); margin-bottom: 16px; }
+  .banner-list { list-style: none; font-size: 14px; color: var(--text-muted); display: flex; flex-direction: column; gap: 8px; }
+  .banner-list li { display: flex; align-items: center; gap: 8px; }
+  .banner-list li::before { content: "•"; }
+  .banner-list span { background: #1e1a2e; padding: 2px 6px; border-radius: 4px; font-family: monospace; color: #e2e8f0; }
+
+  /* ----- FILE LIST TABLE ----- */
+  .file-table {
+    background-color: var(--panel-bg);
+    border: 1px solid var(--panel-border);
+    border-radius: 12px;
+    overflow: hidden;
+  }
+
+  .table-header {
+    display: grid;
+    grid-template-columns: 1fr 120px 180px;
+    padding: 16px 20px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-muted);
+    border-bottom: 1px solid var(--panel-border);
+  }
+
+  .table-header span:nth-child(2), .table-header span:nth-child(3) { text-align: right; }
+
+  .file-row {
+    display: grid;
+    grid-template-columns: 1fr 120px 180px;
+    padding: 14px 20px;
+    align-items: center;
+    border-bottom: 1px solid var(--panel-border);
+    text-decoration: none;
+    color: var(--text-main);
+    transition: background 0.15s;
+    cursor: pointer;
+  }
+
+  .file-row:last-child { border-bottom: none; }
+  .file-row:hover { background-color: #1a1729; }
+
+  .file-name-cell {
+    display: flex; align-items: center; gap: 12px; font-size: 14px; font-weight: 500; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;
+  }
+
+  .file-name-cell svg { flex: none; }
+  .file-row:hover .file-name-text { color: #3b82f6; }
+
+  .size-cell, .date-cell { text-align: right; font-size: 14px; color: var(--text-muted); }
+
+  /* ----- DETAIL VIEW (Trang chi tiết File) ----- */
+  .detail-layout {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    max-width: 900px;
+    margin: 0 auto;
+    width: 100%;
+  }
+
+  .detail-card {
+    background-color: var(--panel-bg);
+    border: 1px solid var(--panel-border);
+    border-radius: 12px;
+    padding: 60px 20px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .rar-icon {
+    width: 80px;
+    height: 90px;
+    margin-bottom: 20px;
+  }
+
+  .detail-name {
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 12px;
+    word-break: break-all;
+    max-width: 800px;
+  }
+
+  .detail-meta {
+    font-size: 14px;
+    color: var(--text-muted);
+    margin-bottom: 30px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .detail-actions {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 24px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    border: none;
+    text-decoration: none;
+    transition: 0.2s;
+    color: white;
+  }
+
+  .btn-copy { background-color: var(--btn-copy); }
+  .btn-copy:hover { background-color: var(--btn-copy-hover); }
+
+  .btn-download { background-color: var(--btn-download); }
+  .btn-download:hover { background-color: var(--btn-download-hover); }
+
+  /* ----- TOAST ----- */
+  #toast {
+    position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%) translateY(20px);
+    background: #1e293b; color: #fff; padding: 12px 24px; border-radius: 8px; font-size: 14px;
+    opacity: 0; pointer-events: none; transition: 0.3s; border: 1px solid var(--panel-border); z-index: 100;
+  }
+  #toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+  @media (max-width: 650px) {
+    .table-header, .file-row { grid-template-columns: 1fr 80px; }
+    .table-header span:nth-child(3), .date-cell { display: none; }
+    .detail-actions { flex-direction: column; width: 100%; max-width: 300px; }
+    .btn { width: 100%; }
+  }
+</style>
+</head>
+<body>
+
+  <!-- TOPBAR -->
+  <header class="topbar">
+    <div class="logo">
+      <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M5 12C5 9.79086 6.79086 8 9 8H14L17 11H23C25.2091 11 27 12.7909 27 15V23C27 25.2091 25.2091 27 23 27H9C6.79086 27 5 25.2091 5 23V12Z" fill="#3B82F6"/>
+        <path d="M12 20C12 17.7909 13.7909 16 16 16H21L24 19H28C30.2091 19 32 20.7909 32 23V28C32 30.2091 30.2091 32 28 32H14C11.7909 32 10 30.2091 10 28V20H12Z" fill="#F59E0B" opacity="0.8"/>
+      </svg>
+    </div>
+    <div class="topbar-right">
+      <div class="search-container">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+        <input type="text" id="search-input" placeholder="Tìm kiếm file...">
+      </div>
+      <div class="shortcut-badge">Ctrl K</div>
+      <button class="menu-btn">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+      </button>
+    </div>
+  </header>
+
+  <!-- MAIN VIEW -->
+  <main class="container" id="main-view">
+    <!-- Sẽ được render bởi JS -->
+  </main>
+
+  <div id="toast">Đã sao chép liên kết!</div>
+
+<script>
+/* =====================================================================
+   1) KHU VỰC DÀNH CHO BẠN THÊM FILE
+   ---------------------------------------------------------------------
+   Hướng dẫn:
+   - Thêm 1 object vào mảng FILES dưới đây.
+   - name: Tên file (hoặc tên thư mục nếu type là 'folder')
+   - type: 'file' hoặc 'folder'
+   - size: Dung lượng (chỉ dành cho file, ví dụ: '4.00G', '150MB')
+   - date: Ngày tháng (chỉ dành cho file)
+   - path: Mảng đường dẫn thư mục chứa file đó. VD: ['Game', 'GTA-5']
+   - url: Link tải file thật của bạn (nếu có)
+   ===================================================================== */
+const FILES = [
+  // Thư mục gốc
+  { name: 'Game', type: 'folder', path: [] },
+  { name: 'Windows-Software', type: 'folder', path: [] },
+  
+  // Thư mục con
+  { name: 'GTA-5', type: 'folder', path: ['Game'] },
+  { name: 'Grand Theft Auto V RELOADED - GTA-V - [15 Part 4GB]', type: 'folder', path: ['Game', 'GTA-5'] },
+
+  // File (Giống hệt trong ảnh của bạn)
+  { 
+    name: 'Grand Theft Auto V RELOADED - GTA-V.part01.rar', 
+    type: 'file', 
+    size: '4.00G', 
+    date: '2026-09-07 02:47:35', 
+    path: ['Game', 'GTA-5', 'Grand Theft Auto V RELOADED - GTA-V - [15 Part 4GB]'],
+    url: '#' 
+  },
+  
+  // Một số file mẫu khác
+  { name: 'Office_2021.iso', type: 'file', size: '4.1G', date: '2026-10-17 05:45:00', path: ['Windows-Software'], url: '#' },
+  { name: 'Readme.txt', type: 'file', size: '1KB', date: '2026-10-20 15:05:00', path: ['Game'], url: '#' }
+];
+
+/* =====================================================================
+   2) LOGIC XỬ LÝ (KHÔNG CẦN CHỈNH SỬA BÊN DƯỚI)
+   ===================================================================== */
+const mainView = document.getElementById('main-view');
+let currentPath = []; // Mảng lưu đường dẫn hiện tại
+let searchQuery = '';
+
+// Icon SVG cho File RAR (Giống trong hình)
+const RAR_ICON = `
+  <svg class="rar-icon" viewBox="0 0 100 110" xmlns="http://www.w3.org/2000/svg">
+    <path d="M10 0 H70 L100 30 V100 A10 10 0 0 1 90 110 H10 A10 10 0 0 1 0 100 V10 A10 10 0 0 1 10 0 Z" fill="#facc15"/>
+    <path d="M70 0 L100 30 H80 A10 10 0 0 1 70 20 Z" fill="#ca8a04"/>
+    <text x="50" y="70" font-family="Arial, sans-serif" font-size="28" font-weight="900" fill="#ffffff" text-anchor="middle">RAR</text>
+  </svg>
+`;
+
+// Icon mặc định cho file khác hoặc thư mục
+const FOLDER_ICON = `<svg width="20" height="20" viewBox="0 0 24 24" fill="#3b82f6" stroke="#3b82f6" stroke-width="2"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path></svg>`;
+const FILE_ICON = `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="2"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"></path><polyline points="13 2 13 9 20 9"></polyline></svg>`;
+
+// Hàm tạo Breadcrumb
+function buildBreadcrumb(pathArray, isFileView = false, fileName = '') {
+  let html = `<a href="#/">🏠 Home</a>`;
+  
+  pathArray.forEach((folder, index) => {
+    const folderPath = pathArray.slice(0, index + 1);
+    const encodedPath = encodeURIComponent(JSON.stringify(folderPath));
+    html += ` <span class="sep">/</span> <a href="#/folder/${encodedPath}">${folder}</a>`;
+  });
+
+  if (isFileView && fileName) {
+    html += ` <span class="sep">/</span> <span class="current">${fileName}</span>`;
+  }
+
+  return `<div class="breadcrumb-bar">${html}</div>`;
+}
+
+// Render Trang Danh Sách File / Thư mục
+function renderListView() {
+  // 1. Lấy dữ liệu theo thư mục hiện tại
+  let items = [];
+  
+  if (searchQuery) {
+    items = FILES.filter(item => item.name.toLowerCase().includes(searchQuery.toLowerCase()));
+  } else {
+    items = FILES.filter(item => 
+      item.path.length === currentPath.length && 
+      item.path.every((val, index) => val === currentPath[index])
+    );
+  }
+
+  // 2. Phân tách Thư mục và File để sắp xếp (Thư mục trước)
+  items.sort((a, b) => {
+    if (a.type !== b.type) return a.type === 'folder' ? -1 : 1;
+    return a.name.localeCompare(b.name);
+  });
+
+  // 3. Tạo HTML
+  let html = '';
+  
+  // Banner
+  if (currentPath.length === 0 && !searchQuery) {
+    html += `
+      <div class="banner">
+        <div class="banner-title">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
+          ShareVina Downloads
+        </div>
+        <div class="banner-desc">Kho lưu trữ và chia sẻ tài nguyên, phần mềm số tốc độ cao.</div>
+        <ul class="banner-list">
+          <li><strong>Mật khẩu giải nén (nếu có):</strong> <span>sharevina.com</span></li>
+          <li><strong>Lưu ý:</strong> Quét mã độc trước khi mở tệp và chỉ sử dụng cho mục đích học tập, thử nghiệm.</li>
+        </ul>
+      </div>
+    `;
+  }
+
+  // Breadcrumb
+  html += buildBreadcrumb(currentPath);
+  
+  if (searchQuery) {
+    html += `<div style="padding: 10px 0; color: var(--text-muted);">Kết quả tìm kiếm cho: "<b>${searchQuery}</b>"</div>`;
+  }
+
+  // Bảng File
+  html += `<div class="file-table">
+    <div class="table-header">
+      <span>Name</span><span>Size</span><span>Modified</span>
+    </div>`;
+
+  if (items.length === 0) {
+    html += `<div style="padding: 40px; text-align: center; color: var(--text-muted);">Thư mục trống</div>`;
+  } else {
+    items.forEach(item => {
+      const isFolder = item.type === 'folder';
+      const icon = isFolder ? FOLDER_ICON : FILE_ICON;
+      const size = isFolder ? '-' : item.size;
+      const date = isFolder ? '-' : item.date;
+      
+      // Xử lý click
+      let clickAction = '';
+      if (isFolder) {
+        const newPath = [...currentPath, item.name];
+        const encodedPath = encodeURIComponent(JSON.stringify(newPath));
+        clickAction = `onclick="window.location.hash = '#/folder/${encodedPath}'"`;
+      } else {
+        const encodedFile = encodeURIComponent(item.name);
+        const encodedPath = encodeURIComponent(JSON.stringify(item.path));
+        clickAction = `onclick="window.location.hash = '#/file/${encodedPath}/${encodedFile}'"`;
+      }
+
+      html += `
+        <div class="file-row" ${clickAction}>
+          <div class="file-name-cell">${icon} <span class="file-name-text">${item.name}</span></div>
+          <div class="size-cell">${size}</div>
+          <div class="date-cell">${date}</div>
+        </div>
+      `;
+    });
+  }
+  
+  html += `</div>`;
+  mainView.innerHTML = html;
+}
+
+// Render Trang Chi Tiết File (Giống hệt trong ảnh)
+function renderDetailView(filePathArray, fileName) {
+  // Tìm file trong data
+  const file = FILES.find(f => 
+    f.name === fileName && 
+    f.type === 'file' && 
+    JSON.stringify(f.path) === JSON.stringify(filePathArray)
+  );
+
+  if (!file) {
+    window.location.hash = '#/';
+    return;
+  }
+
+  const shareUrl = window.location.origin + window.location.pathname + window.location.hash;
+
+  let html = `
+    <div class="detail-layout">
+      ${buildBreadcrumb(file.path, true, file.name)}
+      
+      <div class="detail-card">
+        ${RAR_ICON}
+        <h1 class="detail-name">${file.name}</h1>
+        <div class="detail-meta">
+          <span>${file.size}</span>
+          <span>·</span>
+          <span>${file.date}</span>
+        </div>
+        
+        <div class="detail-actions">
+          <button class="btn btn-copy" onclick="copyLink('${shareUrl}')">Copy link</button>
+          <button class="btn btn-download" onclick="downloadFile('${file.name}')">Download</button>
+        </div>
+      </div>
+    </div>
+  `;
+  mainView.innerHTML = html;
+}
+
+// Hàm Copy Link
+function copyLink(url) {
+  navigator.clipboard.writeText(url).then(() => {
+    showToast('Đã sao chép liên kết!');
+  }).catch(() => {
+    showToast('Không thể sao chép!');
+  });
+}
+
+// Hàm Tải File (Giả lập)
+function downloadFile(fileName) {
+  const text = `Cảm ơn bạn đã tải file: ${fileName}\n(Đây là file giả lập để test chức năng tải xuống)`;
+  const blob = new Blob([text], { type: 'text/plain;charset=utf-8' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = fileName;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+  showToast('Đang tải xuống...');
+}
+
+// Hàm hiển thị thông báo Toast
+function showToast(msg) {
+  const toast = document.getElementById('toast');
+  toast.textContent = msg;
+  toast.classList.add('show');
+  setTimeout(() => toast.classList.remove('show'), 2500);
+}
+
+// Bộ định tuyến (Router)
+function router() {
+  const hash = window.location.hash || '#/';
+  
+  if (hash.startsWith('#/file/')) {
+    // Cắt chuỗi: #/file/%5B%22Game%22%5D/ten_file.rar
+    const parts = hash.split('/');
+    const encodedPath = parts[2];
+    const encodedFile = parts[3];
+    
+    const pathArray = JSON.parse(decodeURIComponent(encodedPath));
+    const fileName = decodeURIComponent(encodedFile);
+    
+    renderDetailView(pathArray, fileName);
+  } 
+  else if (hash.startsWith('#/folder/')) {
+    const encodedPath = hash.replace('#/folder/', '');
+    currentPath = JSON.parse(decodeURIComponent(encodedPath));
+    searchQuery = '';
+    document.getElementById('search-input').value = '';
+    renderListView();
+  } 
+  else {
+    currentPath = [];
+    searchQuery = '';
+    document.getElementById('search-input').value = '';
+    renderListView();
+  }
+}
+
+// Xử lý Tìm kiếm
+document.getElementById('search-input').addEventListener('input', (e) => {
+  searchQuery = e.target.value.trim();
+  if (searchQuery) {
+    currentPath = [];
+    window.location.hash = '#/';
+    renderListView();
+  }
+});
+
+// Phím tắt Ctrl+K
+document.addEventListener('keydown', (e) => {
+  if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+    e.preventDefault();
+    document.getElementById('search-input').focus();
+  }
+});
+
+// Lắng nghe sự kiện đổi URL
+window.addEventListener('hashchange', router);
+
+// Khởi chạy lần đầu
+router();
+</script>
+</body>
+</html>
