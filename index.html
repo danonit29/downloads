@@ -21,12 +21,10 @@
     --text-muted: #8b92a5;
     --primary: #3b82f6;
     --folder-color: #60a5fa;
-    
     --btn-copy: #6a4c9c;
     --btn-copy-hover: #5a3e86;
     --btn-download: #1d4ed8;
     --btn-download-hover: #1e40af;
-    
     --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
@@ -96,9 +94,16 @@
   .dropdown-item svg { color: var(--text-muted); transition: var(--transition-smooth); }
   .dropdown-item.active svg { color: var(--primary); }
 
+  /* =========================================
+     MAIN WRAPPER — Đưa lên trên & căn giữa
+     ========================================= */
   .main-wrapper {
-    flex: 1; display: flex; flex-direction: column; align-items: center;
-    padding: 32px 16px 60px; width: 100%;
+    flex: 1; 
+    display: flex; 
+    flex-direction: column; 
+    align-items: center;
+    padding: 24px 16px 40px; /* Khoảng cách từ top xuống 24px */
+    width: 100%;
   }
 
   .content-box {
@@ -108,27 +113,30 @@
     border: 1px solid var(--border-color);
     border-top: 1px solid rgba(255, 255, 255, 0.2); 
     border-radius: 16px; 
-    box-shadow: 
-      0 24px 64px rgba(0, 0, 0, 0.5), 
-      inset 0 1px 0 rgba(255, 255, 255, 0.05); 
-    display: flex; flex-direction: column; overflow: hidden; width: 100%; max-width: 920px;
+    box-shadow: 0 24px 64px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.05); 
+    display: flex; flex-direction: column; overflow: hidden; 
+    width: 100%; max-width: 920px;
     animation: slideUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
   }
 
+  /* Banner gọn gàng */
   .banner {
     background: rgba(255, 255, 255, 0.03); 
-    margin: 20px 20px 0 20px;
-    border-radius: 12px; padding: 26px; 
+    margin: 14px 18px 0 18px;
+    border-radius: 12px; padding: 18px 22px; 
     border: 1px solid rgba(255, 255, 255, 0.05);
     animation: fadeIn 0.6s ease forwards;
   }
-  .banner-title { display: flex; align-items: center; gap: 12px; font-size: 21px; font-weight: 600; margin-bottom: 14px; }
-  .banner-title svg { color: var(--primary); width: 24px; height: 24px; }
-  .banner-desc { font-size: 16px; color: var(--text-main); margin-bottom: 18px; line-height: 1.6; }
-  .banner-list { list-style: none; font-size: 15.5px; color: var(--text-muted); display: flex; flex-direction: column; gap: 12px; }
-  .banner-list li { display: flex; align-items: flex-start; gap: 10px; line-height: 1.65; }
+  .banner-title { 
+    display: flex; align-items: center; gap: 12px; 
+    font-size: 20px; font-weight: 600; margin-bottom: 10px; 
+  }
+  .banner-title svg { color: var(--primary); width: 22px; height: 22px; }
+  .banner-desc { font-size: 15px; color: var(--text-main); margin-bottom: 12px; line-height: 1.5; }
+  .banner-list { list-style: none; font-size: 14.5px; color: var(--text-muted); display: flex; flex-direction: column; gap: 8px; }
+  .banner-list li { display: flex; align-items: flex-start; gap: 10px; line-height: 1.5; }
   .banner-list li::before { content: "•"; color: var(--text-muted); }
-  .banner-list span { background: rgba(59, 130, 246, 0.2); padding: 2px 8px; border-radius: 6px; font-family: monospace; font-size: 14.5px; color: #93c5fd; }
+  .banner-list span { background: rgba(59, 130, 246, 0.2); padding: 1px 7px; border-radius: 6px; font-family: monospace; font-size: 13.5px; color: #93c5fd; }
 
   .breadcrumb-bar {
     padding: 17px 24px; display: flex; align-items: center; flex-wrap: wrap; gap: 10px; font-size: 15.5px;
@@ -160,6 +168,11 @@
   .file-row:hover .file-name-text { color: var(--primary); }
   .size-cell, .date-cell { text-align: right; font-size: 15px; color: var(--text-muted); }
 
+  /* Folder to hơn file một xíu */
+  .file-name-cell.is-folder { font-size: 17px; }
+  .file-name-cell.is-folder svg { width: 22px; height: 22px; }
+
+  /* Grid View */
   .view-grid .table-header { display: none; }
   .view-grid .file-list-wrapper {
     display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 16px; margin-top: 16px;
@@ -174,6 +187,7 @@
   .view-grid .file-name-cell svg { width: 44px; height: 44px; }
   .view-grid .size-cell, .view-grid .date-cell { display: none; }
 
+  /* Detail View */
   .detail-wrapper { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 60px 24px; animation: scaleIn 0.4s ease forwards; }
   .detail-name { font-size: 26px; font-weight: 600; margin: 26px 0 14px; color: var(--text-main); text-align: center; line-height: 1.35; }
   .detail-meta { font-size: 15.5px; color: var(--text-muted); margin-bottom: 36px; display: flex; gap: 10px; align-items: center; }
@@ -189,6 +203,7 @@
   .btn-download { background-color: var(--btn-download); box-shadow: 0 4px 15px rgba(29, 78, 216, 0.3); }
   .btn-download:hover { background-color: var(--btn-download-hover); transform: translateY(-2px); box-shadow: 0 6px 20px rgba(29, 78, 216, 0.4); }
 
+  /* Modal Search */
   .modal-overlay {
     position: fixed; top: 0; left: 0; width: 100%; height: 100%;
     background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
@@ -228,10 +243,7 @@
     position: relative;
   }
   
-  .custom-select-wrapper {
-    position: relative;
-    user-select: none;
-  }
+  .custom-select-wrapper { position: relative; user-select: none; }
 
   .custom-select-trigger {
     background: rgba(255, 255, 255, 0.05);
@@ -242,70 +254,36 @@
     cursor: pointer;
     font-size: 15.5px;
     font-weight: 500;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 12px;
-    min-width: 104px;
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 12px; min-width: 104px;
     transition: var(--transition-smooth);
   }
-
   .custom-select-trigger:hover, .custom-select-wrapper.active .custom-select-trigger {
     background: rgba(255, 255, 255, 0.1);
     border-color: rgba(255, 255, 255, 0.3);
   }
-
-  .custom-select-trigger svg {
-    width: 13px; height: 13px;
-    transition: transform 0.3s ease;
-  }
-
-  .custom-select-wrapper.active .custom-select-trigger svg {
-    transform: rotate(180deg);
-  }
+  .custom-select-trigger svg { width: 13px; height: 13px; transition: transform 0.3s ease; }
+  .custom-select-wrapper.active .custom-select-trigger svg { transform: rotate(180deg); }
 
   .custom-options {
-    position: absolute;
-    top: calc(100% + 8px);
-    left: 0;
-    width: 100%;
+    position: absolute; top: calc(100% + 8px); left: 0; width: 100%;
     background: rgba(25, 22, 40, 0.95);
     backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
     border: 1px solid var(--border-light);
     border-radius: 8px;
     box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-    opacity: 0;
-    visibility: hidden;
-    transform: translateY(-10px);
+    opacity: 0; visibility: hidden; transform: translateY(-10px);
     transition: var(--transition-smooth);
-    z-index: 10;
-    overflow: hidden;
+    z-index: 10; overflow: hidden;
   }
-
-  .custom-select-wrapper.active .custom-options {
-    opacity: 1;
-    visibility: visible;
-    transform: translateY(0);
-  }
+  .custom-select-wrapper.active .custom-options { opacity: 1; visibility: visible; transform: translateY(0); }
 
   .custom-option {
-    padding: 11px 16px;
-    cursor: pointer;
-    font-size: 15px;
-    color: var(--text-main);
-    transition: var(--transition-smooth);
+    padding: 11px 16px; cursor: pointer; font-size: 15px;
+    color: var(--text-main); transition: var(--transition-smooth);
   }
-
-  .custom-option:hover {
-    background: rgba(59, 130, 246, 0.2);
-    color: var(--primary);
-  }
-  
-  .custom-option.selected {
-    background: rgba(59, 130, 246, 0.15);
-    color: var(--primary);
-    font-weight: 600;
-  }
+  .custom-option:hover { background: rgba(59, 130, 246, 0.2); color: var(--primary); }
+  .custom-option.selected { background: rgba(59, 130, 246, 0.15); color: var(--primary); font-weight: 600; }
 
   .search-bar-input {
     flex: 1;
@@ -324,8 +302,7 @@
     background: rgba(255, 255, 255, 0.05);
     border: 1px solid rgba(255, 255, 255, 0.1);
     color: #888;
-    width: 48px; height: 48px;
-    flex: none;
+    width: 48px; height: 48px; flex: none;
     border-radius: 6px;
     display: flex; align-items: center; justify-content: center;
     cursor: pointer;
@@ -333,15 +310,10 @@
   }
   .search-bar-btn:hover { background: rgba(255, 255, 255, 0.15); color: #fff; }
 
-  .modal-body { 
-    display: flex; flex-direction: column; height: 320px; 
-    padding-bottom: 24px;
-  }
+  .modal-body { display: flex; flex-direction: column; height: 320px; padding-bottom: 24px; }
 
   .search-results {
-    flex: 1;
-    overflow-y: auto;
-    padding: 0 24px;
+    flex: 1; overflow-y: auto; padding: 0 24px;
     display: flex; flex-direction: column; gap: 4px;
   }
   .search-results::-webkit-scrollbar { width: 6px; }
@@ -383,11 +355,15 @@
     body { font-size: 15.5px; }
     .topbar { gap: 12px; padding: 0 12px; height: 62px; }
     .search-group { display: none; } 
-    .banner { padding: 20px; }
-    .banner-title { font-size: 19px; }
+    .banner { padding: 16px 18px; margin: 12px 14px 0 14px; }
+    .banner-title { font-size: 18px; }
+    .banner-desc { font-size: 14px; }
+    .banner-list { font-size: 13.5px; }
     .table-header, .file-row { grid-template-columns: 1fr 88px; }
     .table-header span:nth-child(3), .date-cell { display: none; }
     .file-name-cell { font-size: 15px; }
+    .file-name-cell.is-folder { font-size: 16.5px; }
+    .file-name-cell.is-folder svg { width: 21px; height: 21px; }
     .size-cell { font-size: 14.5px; }
     .detail-name { font-size: 21px; }
     .detail-meta { font-size: 14.5px; }
@@ -483,7 +459,8 @@ const FILES = [
   { name: 'Windows-Software', type: 'folder', path: [], date: '2026-10-17 05:43:38' },
   { name: 'Bộ cài đặt hệ điều hành', type: 'folder', path: [], date: '2026-10-24 09:00:00', order: 0 },
 
-  { name: 'Microsoft Office', type: 'folder', path: ['Windows-Software'], date: '2026-10-24 08:15:02' },
+  /* === Windows-Software → Microsoft Office === */
+  { name: 'Microsoft Office', type: 'folder', path: ['Windows-Software'], date: '2026-10-24 08:15:02', order: 1 },
   { name: 'Office 2013 x32.iso', type: 'file', size: '-', date: '2026-10-24 08:16:11', path: ['Windows-Software', 'Microsoft Office'], url: 'https://drive.google.com/file/d/1tLYomga9UGFGV9l_EQxuXQlu8ul8r39D/view' },
   { name: 'Office 2013 x64.iso', type: 'file', size: '-', date: '2026-10-24 08:17:04', path: ['Windows-Software', 'Microsoft Office'], url: 'https://drive.google.com/file/d/1CpUFhzTLoeuY67kT6aZW2Y3Zp-AEv74_/view' },
   { name: 'Office 2016 x32.iso', type: 'file', size: '-', date: '2026-10-24 08:18:22', path: ['Windows-Software', 'Microsoft Office'], url: 'https://drive.google.com/file/d/1d31RJQcqtCHUh8f_ZDbYAyV_Y4YLkwMN/view' },
@@ -495,8 +472,71 @@ const FILES = [
   { name: 'Office 2024 Pro Plus.iso', type: 'file', size: '-', date: '2026-10-24 08:26:02', path: ['Windows-Software', 'Microsoft Office'], url: 'https://officecdn.microsoft.com/db/492350f6-3a01-4f97-b9c0-c7c6ddf67d60/media/en-us/ProPlus2024Retail.img' },
   { name: 'Office 2024 LTSC Pro Plus.iso', type: 'file', size: '-', date: '2026-10-24 08:27:21', path: ['Windows-Software', 'Microsoft Office'], url: 'https://drive.google.com/file/d/1fDS2hSKyxBDEzJnkMfxSvUWLcE-JThXE/view' },
 
-  { name: 'Windows', type: 'folder', path: ['Bộ cài đặt hệ điều hành'], date: '2026-10-24 09:01:00', order: 0 },
+  /* === Windows-Software → Adobe full apps === */
+  { name: 'Adobe full apps', type: 'folder', path: ['Windows-Software'], date: '2026-10-25 09:58:00', order: 2 },
 
+  { name: 'Adobe 2017', type: 'folder', path: ['Windows-Software', 'Adobe full apps'], date: '2026-10-25 09:59:00', order: 1 },
+  { name: 'Adobe 2018', type: 'folder', path: ['Windows-Software', 'Adobe full apps'], date: '2026-10-25 09:59:30', order: 2 },
+  { name: 'Adobe 2019', type: 'folder', path: ['Windows-Software', 'Adobe full apps'], date: '2026-10-25 09:59:40', order: 3 },
+  { name: 'Adobe 2020', type: 'folder', path: ['Windows-Software', 'Adobe full apps'], date: '2026-10-25 09:59:50', order: 4 },
+  { name: 'Adobe 2021', type: 'folder', path: ['Windows-Software', 'Adobe full apps'], date: '2026-10-25 10:00:00', order: 5 },
+
+  /* --- Adobe 2017 --- */
+  { name: 'Photoshop 2017.rar', type: 'file', size: '-', date: '2026-10-25 10:01:00', path: ['Windows-Software', 'Adobe full apps', 'Adobe 2017'], url: 'https://drive.google.com/file/d/1GuslkalSNQeuXoUf5sCPEySDY2LHxJlj/view' },
+  { name: 'Premiere Pro 2017.rar', type: 'file', size: '-', date: '2026-10-25 10:02:00', path: ['Windows-Software', 'Adobe full apps', 'Adobe 2017'], url: 'https://drive.google.com/file/d/1jP_sPUccfLxjCy1RHUey-5apOcJ88n0x/view' },
+  { name: 'Illustrator 2017.rar', type: 'file', size: '-', date: '2026-10-25 10:03:00', path: ['Windows-Software', 'Adobe full apps', 'Adobe 2017'], url: 'https://drive.google.com/file/d/1kkellL_rM8_7X_o4mbO9S_vGuKwyLDnt/view' },
+  { name: 'After Effects 2017.rar', type: 'file', size: '-', date: '2026-10-25 10:04:00', path: ['Windows-Software', 'Adobe full apps', 'Adobe 2017'], url: 'https://drive.google.com/file/d/1atY8iIhDaWRBkoPSZ-HApm_eYhhCi3T1/view' },
+  { name: 'Lightroom Classic 2017.rar', type: 'file', size: '-', date: '2026-10-25 10:05:00', path: ['Windows-Software', 'Adobe full apps', 'Adobe 2017'], url: 'https://drive.google.com/file/d/1Lt1A3RDDC1yjDodHL7qnrQDSsntV0sjd/view' },
+  { name: 'Audition 2017.rar', type: 'file', size: '-', date: '2026-10-25 10:06:00', path: ['Windows-Software', 'Adobe full apps', 'Adobe 2017'], url: 'https://drive.google.com/file/d/1jc2tV5P_NHQrUzNdemaYQoxAb6w6i8b-/view' },
+  { name: 'Animate 2017.rar', type: 'file', size: '-', date: '2026-10-25 10:07:00', path: ['Windows-Software', 'Adobe full apps', 'Adobe 2017'], url: 'https://drive.google.com/file/d/1v7V542FGCBOIHbMw1HRiuPAJvTcrOv9D/view' },
+  { name: 'Dreamweaver 2017.rar', type: 'file', size: '-', date: '2026-10-25 10:08:00', path: ['Windows-Software', 'Adobe full apps', 'Adobe 2017'], url: 'https://drive.google.com/file/d/1NVt8TeqeArK-eneHdm7V6s_KPnrRacFM/view' },
+
+  /* --- Adobe 2018 --- */
+  { name: 'Photoshop 2018.rar', type: 'file', size: '-', date: '2026-10-25 10:10:00', path: ['Windows-Software', 'Adobe full apps', 'Adobe 2018'], url: 'https://drive.google.com/file/d/1B4SQoHRedUvttIon4ZixoiE_wkIcMak8/view' },
+  { name: 'Premiere Pro 2018.rar', type: 'file', size: '-', date: '2026-10-25 10:11:00', path: ['Windows-Software', 'Adobe full apps', 'Adobe 2018'], url: 'https://drive.google.com/file/d/1BxR4Z9b2GPJeF8RtU7hD8EI390pAdwNX/view' },
+  { name: 'Illustrator 2018.rar', type: 'file', size: '-', date: '2026-10-25 10:12:00', path: ['Windows-Software', 'Adobe full apps', 'Adobe 2018'], url: 'https://drive.google.com/file/d/1Ng8-l_GvQ1IHfzm67aB8EwXP4qm8dxNj/view' },
+  { name: 'After Effects 2018.rar', type: 'file', size: '-', date: '2026-10-25 10:13:00', path: ['Windows-Software', 'Adobe full apps', 'Adobe 2018'], url: 'https://drive.google.com/file/d/1e4pdTJ4Df0KRAOki5ICIuvqfgazgvP64/view' },
+  { name: 'Lightroom Classic 2018.rar', type: 'file', size: '-', date: '2026-10-25 10:14:00', path: ['Windows-Software', 'Adobe full apps', 'Adobe 2018'], url: 'https://drive.google.com/file/d/1bnU53w19ko66H2eSvSJ9P7pHiDcK0lev/view' },
+  { name: 'Audition 2018.rar', type: 'file', size: '-', date: '2026-10-25 10:15:00', path: ['Windows-Software', 'Adobe full apps', 'Adobe 2018'], url: 'https://drive.google.com/file/d/1U9NgRRw5lj97G__Te4GdMlYmFpFzFggt/view' },
+  { name: 'Animate 2018.rar', type: 'file', size: '-', date: '2026-10-25 10:16:00', path: ['Windows-Software', 'Adobe full apps', 'Adobe 2018'], url: 'https://drive.google.com/file/d/1Qr3pSG2JQKV8VJ0fOxd3D9S8leiJv-K8/view' },
+  { name: 'Dreamweaver 2018.rar', type: 'file', size: '-', date: '2026-10-25 10:17:00', path: ['Windows-Software', 'Adobe full apps', 'Adobe 2018'], url: 'https://drive.google.com/file/d/1RUGXeQzCGcohslhYQwhZRRihiQFfOxYb/view' },
+  { name: 'Dimension 2018.rar', type: 'file', size: '-', date: '2026-10-25 10:18:00', path: ['Windows-Software', 'Adobe full apps', 'Adobe 2018'], url: 'https://drive.google.com/file/d/1h6bYJxuoq1nwD4jl0j7GKOk4xVR21seE/view' },
+
+  /* --- Adobe 2019 --- */
+  { name: 'Photoshop 2019.rar', type: 'file', size: '-', date: '2026-10-25 10:20:00', path: ['Windows-Software', 'Adobe full apps', 'Adobe 2019'], url: 'https://drive.google.com/file/d/1WhRiy9M67dcvBRNPvXiLTXSKnbx27jXv/view' },
+  { name: 'Premiere Pro 2019.rar', type: 'file', size: '-', date: '2026-10-25 10:21:00', path: ['Windows-Software', 'Adobe full apps', 'Adobe 2019'], url: 'https://drive.google.com/file/d/10OQpc8YD2CJ5qsecaeQFsVvJfI92MrxJ/view' },
+  { name: 'Illustrator 2019.rar', type: 'file', size: '-', date: '2026-10-25 10:22:00', path: ['Windows-Software', 'Adobe full apps', 'Adobe 2019'], url: 'https://drive.google.com/file/d/1QBCr6e9iaQy7aqSbIbAhkB-71WA8xDCf/view' },
+  { name: 'After Effects 2019.rar', type: 'file', size: '-', date: '2026-10-25 10:23:00', path: ['Windows-Software', 'Adobe full apps', 'Adobe 2019'], url: 'https://drive.google.com/file/d/1Awr3Yy3TICHaZF5evrB08Jx4zrmYJGgT/view' },
+  { name: 'Lightroom Classic 2019.rar', type: 'file', size: '-', date: '2026-10-25 10:24:00', path: ['Windows-Software', 'Adobe full apps', 'Adobe 2019'], url: 'https://drive.google.com/file/d/10h7agxT9Oq4keD7Ea6lSXQREnXjLDgyT/view' },
+  { name: 'Audition 2019.rar', type: 'file', size: '-', date: '2026-10-25 10:25:00', path: ['Windows-Software', 'Adobe full apps', 'Adobe 2019'], url: 'https://drive.google.com/file/d/1Z2uEdNnAkdOCnR-Ea5r5fjY6di8JA5y_/view' },
+  { name: 'Animate 2019.rar', type: 'file', size: '-', date: '2026-10-25 10:26:00', path: ['Windows-Software', 'Adobe full apps', 'Adobe 2019'], url: 'https://drive.google.com/file/d/1zv7wTIlT9YDSlmBrjBhKsPPyIoO51fqf/view' },
+  { name: 'Dreamweaver 2019.rar', type: 'file', size: '-', date: '2026-10-25 10:27:00', path: ['Windows-Software', 'Adobe full apps', 'Adobe 2019'], url: 'https://drive.google.com/file/d/1wc-Hz7V8spn9s1sAo5IvxoloZ1AAtU6v/view' },
+  { name: 'Dimension 2019.rar', type: 'file', size: '-', date: '2026-10-25 10:28:00', path: ['Windows-Software', 'Adobe full apps', 'Adobe 2019'], url: 'https://drive.google.com/file/d/1VlGL4HtYsAgdv8w11bK_FJGqJkqaB6C0/view' },
+
+  /* --- Adobe 2020 --- */
+  { name: 'Photoshop 2020.rar', type: 'file', size: '-', date: '2026-10-25 10:30:00', path: ['Windows-Software', 'Adobe full apps', 'Adobe 2020'], url: 'https://drive.google.com/file/d/1EQi2tX5SvDj9quqcFzAIiAbqLowSip5j/view' },
+  { name: 'Premiere Pro 2020.rar', type: 'file', size: '-', date: '2026-10-25 10:31:00', path: ['Windows-Software', 'Adobe full apps', 'Adobe 2020'], url: 'https://drive.google.com/file/d/1Hdz6XARHYAx9QV8XnW-Io2IETwA2wPot/view' },
+  { name: 'Illustrator 2020.rar', type: 'file', size: '-', date: '2026-10-25 10:32:00', path: ['Windows-Software', 'Adobe full apps', 'Adobe 2020'], url: 'https://drive.google.com/file/d/1OOhqSG7SzC1KNs0Yr7_mQyYc5CBBsk6C/view' },
+  { name: 'After Effects 2020.rar', type: 'file', size: '-', date: '2026-10-25 10:33:00', path: ['Windows-Software', 'Adobe full apps', 'Adobe 2020'], url: 'https://drive.google.com/file/d/1U-dLP353zGd7GkvAkjbZnQHvbTPqeqDf/view' },
+  { name: 'Lightroom Classic 2020.rar', type: 'file', size: '-', date: '2026-10-25 10:34:00', path: ['Windows-Software', 'Adobe full apps', 'Adobe 2020'], url: 'https://drive.google.com/file/d/17lYyq-to-_eRB3fQjIRIRmL2mNIDTbLW/view' },
+  { name: 'Audition 2020.rar', type: 'file', size: '-', date: '2026-10-25 10:35:00', path: ['Windows-Software', 'Adobe full apps', 'Adobe 2020'], url: 'https://drive.google.com/file/d/1BvER_fYlFzqP1dB3KxbTwFNxDXNtsF_8/view' },
+  { name: 'Animate 2020.rar', type: 'file', size: '-', date: '2026-10-25 10:36:00', path: ['Windows-Software', 'Adobe full apps', 'Adobe 2020'], url: 'https://drive.google.com/file/d/1jDMrklAKY8qdGx3hI-yoBOpO03gkpfJ4/view' },
+  { name: 'Dreamweaver 2020.rar', type: 'file', size: '-', date: '2026-10-25 10:37:00', path: ['Windows-Software', 'Adobe full apps', 'Adobe 2020'], url: 'https://drive.google.com/file/d/1oxZQpUMUg_iat9jef0OiRTg5dXVOVqNX/view' },
+  { name: 'Dimension 2020.rar', type: 'file', size: '-', date: '2026-10-25 10:38:00', path: ['Windows-Software', 'Adobe full apps', 'Adobe 2020'], url: 'https://drive.google.com/file/d/1N78EZb93YRCZivABtHdPb3viTKrZINK-/view' },
+
+  /* --- Adobe 2021 --- */
+  { name: 'Photoshop 2021.rar', type: 'file', size: '-', date: '2026-10-25 10:40:00', path: ['Windows-Software', 'Adobe full apps', 'Adobe 2021'], url: 'https://drive.google.com/file/d/1RxF5Nxr0vFfY8TJeHCty5039BQJtCga9/view' },
+  { name: 'Premiere Pro 2021.rar', type: 'file', size: '-', date: '2026-10-25 10:41:00', path: ['Windows-Software', 'Adobe full apps', 'Adobe 2021'], url: 'https://drive.google.com/file/d/1tQHiya5FDrYMsfqoejEnQ9j3_lCqfhqp/view' },
+  { name: 'Illustrator 2021.rar', type: 'file', size: '-', date: '2026-10-25 10:42:00', path: ['Windows-Software', 'Adobe full apps', 'Adobe 2021'], url: 'https://drive.google.com/file/d/1PyDuKC7K8qAzbTuZDspYOxriZXWLSuc5/view' },
+  { name: 'After Effects 2021.rar', type: 'file', size: '-', date: '2026-10-25 10:43:00', path: ['Windows-Software', 'Adobe full apps', 'Adobe 2021'], url: 'https://drive.google.com/file/d/1tQHiya5FDrYMsfqoejEnQ9j3_lCqfhqp/view' },
+  { name: 'Lightroom Classic 2021.rar', type: 'file', size: '-', date: '2026-10-25 10:44:00', path: ['Windows-Software', 'Adobe full apps', 'Adobe 2021'], url: 'https://drive.google.com/file/d/1KYieMxUP7QfxJZkguHxpULnZYi_mEsJj/view' },
+  { name: 'Audition 2021.rar', type: 'file', size: '-', date: '2026-10-25 10:45:00', path: ['Windows-Software', 'Adobe full apps', 'Adobe 2021'], url: 'https://drive.google.com/file/d/1MVNFTSxQQvFofnRZdb-3xbjUf1Y7whpS/view' },
+  { name: 'Animate 2021.rar', type: 'file', size: '-', date: '2026-10-25 10:46:00', path: ['Windows-Software', 'Adobe full apps', 'Adobe 2021'], url: 'https://drive.google.com/file/d/1yHOTHSZw05iM8lepOpsGyXnTFr2pJB0V/view' },
+  { name: 'Dreamweaver 2021.rar', type: 'file', size: '-', date: '2026-10-25 10:47:00', path: ['Windows-Software', 'Adobe full apps', 'Adobe 2021'], url: 'https://drive.google.com/file/d/1gOXhIxzkcUE0y5mruhHOA5_Py9SPM_Co/view' },
+  { name: 'Dimension 2021.rar', type: 'file', size: '-', date: '2026-10-25 10:48:00', path: ['Windows-Software', 'Adobe full apps', 'Adobe 2021'], url: 'https://drive.google.com/file/d/1rRQn5SCwEW9LnUWAeWjPjZ5R9YwgjJI5/view' },
+
+  /* === Bộ cài đặt hệ điều hành → Windows === */
+  { name: 'Windows', type: 'folder', path: ['Bộ cài đặt hệ điều hành'], date: '2026-10-24 09:01:00', order: 0 },
   { name: 'Windows 11', type: 'folder', path: ['Bộ cài đặt hệ điều hành', 'Windows'], date: '2026-10-24 09:02:00', order: 1 },
   { name: 'Windows 11 LTSC - LTSB', type: 'folder', path: ['Bộ cài đặt hệ điều hành', 'Windows'], date: '2026-10-24 09:03:00', order: 2 },
   { name: 'Windows 10', type: 'folder', path: ['Bộ cài đặt hệ điều hành', 'Windows'], date: '2026-10-24 09:04:00', order: 3 },
@@ -532,6 +572,7 @@ const FILES = [
   { name: 'Windows 10 LTSB 2015 x64.iso', type: 'file', size: '-', date: '2026-10-24 09:46:00', path: ['Bộ cài đặt hệ điều hành', 'Windows', 'Windows 10 LTSC - LTSB'], url: 'https://drive.google.com/file/d/1PYFSvvvIGGnSYIEKIGaAtjn2xZXZ4Tja/view?usp=sharing' },
   { name: 'Windows 10 LTSB 2015 x32.iso', type: 'file', size: '-', date: '2026-10-24 09:47:00', path: ['Bộ cài đặt hệ điều hành', 'Windows', 'Windows 10 LTSC - LTSB'], url: 'https://drive.google.com/file/d/1Qma39n_PeG4LjFpfXx04KGB89PCFg7y9/view?usp=sharing' },
 
+  /* === Game === */
   { name: 'Avatar Frontiers of Pandora', type: 'folder', path: ['Game'], date: '2026-08-11 15:18:43' },
   { name: 'Custom Maid 3D2', type: 'folder', path: ['Game'], date: '2026-08-11 15:18:27' },
   { name: 'GTA-5', type: 'folder', path: ['Game'], date: '2026-05-11 04:03:31' },
@@ -553,12 +594,7 @@ let currentFilterType = 'all';
 // Icons
 const ZIP_ICON = `
   <svg width="80" height="90" viewBox="0 0 100 110" xmlns="http://www.w3.org/2000/svg">
-    <defs>
-      <linearGradient id="zipGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-        <stop offset="0%" stop-color="#4ade80" />
-        <stop offset="100%" stop-color="#3b82f6" />
-      </linearGradient>
-    </defs>
+    <defs><linearGradient id="zipGrad" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#4ade80"/><stop offset="100%" stop-color="#3b82f6"/></linearGradient></defs>
     <path d="M10 0 H70 L100 30 V100 A10 10 0 0 1 90 110 H10 A10 10 0 0 1 0 100 V10 A10 10 0 0 1 10 0 Z" fill="url(#zipGrad)"/>
     <path d="M70 0 L100 30 H80 A10 10 0 0 1 70 20 Z" fill="#ffffff" opacity="0.3"/>
     <text x="50" y="70" font-family="Arial, sans-serif" font-size="24" font-weight="900" fill="#ffffff" text-anchor="middle">ZIP</text>
@@ -573,12 +609,7 @@ const RAR_ICON = `
 `;
 const ISO_ICON = `
   <svg width="80" height="90" viewBox="0 0 100 110" xmlns="http://www.w3.org/2000/svg">
-    <defs>
-      <linearGradient id="isoGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-        <stop offset="0%" stop-color="#60a5fa" />
-        <stop offset="100%" stop-color="#8b5cf6" />
-      </linearGradient>
-    </defs>
+    <defs><linearGradient id="isoGrad" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#60a5fa"/><stop offset="100%" stop-color="#8b5cf6"/></linearGradient></defs>
     <path d="M10 0 H70 L100 30 V100 A10 10 0 0 1 90 110 H10 A10 10 0 0 1 0 100 V10 A10 10 0 0 1 10 0 Z" fill="url(#isoGrad)"/>
     <path d="M70 0 L100 30 H80 A10 10 0 0 1 70 20 Z" fill="#ffffff" opacity="0.3"/>
     <text x="50" y="72" font-family="Arial, sans-serif" font-size="22" font-weight="900" fill="#ffffff" text-anchor="middle">ISO</text>
@@ -654,6 +685,7 @@ function renderListView() {
       const icon = isFolder ? FOLDER_ICON : FILE_ICON;
       const size = isFolder ? '-' : item.size;
       const date = isFolder ? '-' : (item.date || '-');
+      const nameCellClass = isFolder ? 'file-name-cell is-folder' : 'file-name-cell';
       
       let clickAction = '';
       if (isFolder) {
@@ -668,7 +700,7 @@ function renderListView() {
 
       html += `
         <div class="file-row" ${clickAction}>
-          <div class="file-name-cell">${icon} <span class="file-name-text">${item.name}</span></div>
+          <div class="${nameCellClass}">${icon} <span class="file-name-text">${item.name}</span></div>
           <div class="size-cell">${size}</div>
           <div class="date-cell">${date}</div>
         </div>
