@@ -3,7 +3,14 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>DangQuoc Download</title>
+<title>DangQuoc Downloads</title>
+
+<!-- ===== FAVICON (logo tab trình duyệt - nền trong suốt) ===== -->
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2032%2032'%3E%3Cpath%20d='M4%2012C4%209.79086%205.79086%208%208%208H13L16%2011H22C24.2091%2011%2026%2012.7909%2026%2015V23C26%2025.2091%2024.2091%2027%2022%2027H8C5.79086%2027%204%2025.2091%204%2023V12Z'%20fill='%233B82F6'/%3E%3Cpath%20d='M11%2020C11%2017.7909%2012.7909%2016%2015%2016H20L23%2019H27C29.2091%2019%2031%2020.7909%2031%2023V28C31%2030.2091%2029.2091%2032%2027%2032H13C10.7909%2032%209%2030.2091%209%2028V20H11Z'%20fill='%23F59E0B'/%3E%3C/svg%3E">
+<link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2032%2032'%3E%3Cpath%20d='M4%2012C4%209.79086%205.79086%208%208%208H13L16%2011H22C24.2091%2011%2026%2012.7909%2026%2015V23C26%2025.2091%2024.2091%2027%2022%2027H8C5.79086%2027%204%2025.2091%204%2023V12Z'%20fill='%233B82F6'/%3E%3Cpath%20d='M11%2020C11%2017.7909%2012.7909%2016%2015%2016H20L23%2019H27C29.2091%2019%2031%2020.7909%2031%2023V28C31%2030.2091%2029.2091%2032%2027%2032H13C10.7909%2032%209%2030.2091%209%2028V20H11Z'%20fill='%23F59E0B'/%3E%3C/svg%3E">
+<meta name="theme-color" content="#0B0E1A">
+<!-- ===== END FAVICON ===== -->
+
 <style>
   :root {
     --bg-topbar: rgba(11, 14, 26, 0.6);
@@ -468,8 +475,6 @@
 <script>
 /* =====================================================================
    DỮ LIỆU
-   Trường "order" tuỳ chọn: số càng nhỏ càng đứng trước (dùng để ưu tiên
-   thứ tự folder, ví dụ Windows 11 trước Windows 10).
    ===================================================================== */
 const FILES = [
   { name: 'Android-Software', type: 'folder', path: [], date: '2026-10-17 05:42:41' },
@@ -490,16 +495,13 @@ const FILES = [
   { name: 'Office 2024 Pro Plus.iso', type: 'file', size: '-', date: '2026-10-24 08:26:02', path: ['Windows-Software', 'Microsoft Office'], url: 'https://officecdn.microsoft.com/db/492350f6-3a01-4f97-b9c0-c7c6ddf67d60/media/en-us/ProPlus2024Retail.img' },
   { name: 'Office 2024 LTSC Pro Plus.iso', type: 'file', size: '-', date: '2026-10-24 08:27:21', path: ['Windows-Software', 'Microsoft Office'], url: 'https://drive.google.com/file/d/1fDS2hSKyxBDEzJnkMfxSvUWLcE-JThXE/view' },
 
-  /* === Bộ cài đặt hệ điều hành → Windows === */
   { name: 'Windows', type: 'folder', path: ['Bộ cài đặt hệ điều hành'], date: '2026-10-24 09:01:00', order: 0 },
 
-  /* Thứ tự ưu tiên: Windows 11 → Windows 11 LTSC-LTSB → Windows 10 → Windows 10 LTSC-LTSB */
   { name: 'Windows 11', type: 'folder', path: ['Bộ cài đặt hệ điều hành', 'Windows'], date: '2026-10-24 09:02:00', order: 1 },
   { name: 'Windows 11 LTSC - LTSB', type: 'folder', path: ['Bộ cài đặt hệ điều hành', 'Windows'], date: '2026-10-24 09:03:00', order: 2 },
   { name: 'Windows 10', type: 'folder', path: ['Bộ cài đặt hệ điều hành', 'Windows'], date: '2026-10-24 09:04:00', order: 3 },
   { name: 'Windows 10 LTSC - LTSB', type: 'folder', path: ['Bộ cài đặt hệ điều hành', 'Windows'], date: '2026-10-24 09:05:00', order: 4 },
 
-  /* Windows 11 files */
   { name: 'Windows 11 26h2.iso', type: 'file', size: '-', date: '2026-10-24 09:10:00', path: ['Bộ cài đặt hệ điều hành', 'Windows', 'Windows 11'], url: 'https://drive.usercontent.google.com/download?id=1CMDb1esI33w0KrHgvaEFk4Qde-F4fuXS&export=download&authuser=0' },
   { name: 'Windows 11 26h1.iso', type: 'file', size: '-', date: '2026-10-24 09:11:00', path: ['Bộ cài đặt hệ điều hành', 'Windows', 'Windows 11'], url: 'https://drive.usercontent.google.com/download?id=1iCbPG9YbczoU14bD0zU8puzIb2bQR7NK&export=download&authuser=0' },
   { name: 'Windows 11 25h2.iso', type: 'file', size: '-', date: '2026-10-24 09:12:00', path: ['Bộ cài đặt hệ điều hành', 'Windows', 'Windows 11'], url: 'https://drive.google.com/file/d/1J8w4UBWA57NPI5CdneDFsaYuKth5Dv9I/view' },
@@ -508,12 +510,10 @@ const FILES = [
   { name: 'Windows 11 22h2.iso', type: 'file', size: '-', date: '2026-10-24 09:15:00', path: ['Bộ cài đặt hệ điều hành', 'Windows', 'Windows 11'], url: 'https://drive.google.com/file/d/17LYGQFAoglSswLlcbORi6y1xsQKzM5zf/view?usp=sharing' },
   { name: 'Windows 11 21h2.iso', type: 'file', size: '-', date: '2026-10-24 09:16:00', path: ['Bộ cài đặt hệ điều hành', 'Windows', 'Windows 11'], url: 'https://drive.google.com/file/d/1Kpe8Q-5z59X9R8HtBLL7HKPqve-MsCUb/view?usp=sharing' },
 
-  /* Windows 11 LTSC - LTSB files */
   { name: 'Windows 11 22h2 LTSC.iso', type: 'file', size: '-', date: '2026-10-24 09:20:00', path: ['Bộ cài đặt hệ điều hành', 'Windows', 'Windows 11 LTSC - LTSB'], url: 'https://drive.google.com/file/d/1hBBDyzYp9wO_WRHICO0Y97vSf5qy3m3J/view' },
   { name: 'Windows 11 23h2 IoT Enterprise.iso', type: 'file', size: '-', date: '2026-10-24 09:21:00', path: ['Bộ cài đặt hệ điều hành', 'Windows', 'Windows 11 LTSC - LTSB'], url: 'https://drive.google.com/file/d/1TZFHL9u7w34g6cFO64-QbnpOt_VQCrV2/view' },
   { name: 'Windows 11 24h2 IoT LTSC.iso', type: 'file', size: '-', date: '2026-10-24 09:22:00', path: ['Bộ cài đặt hệ điều hành', 'Windows', 'Windows 11 LTSC - LTSB'], url: 'https://drive.google.com/file/d/1hBBDyzYp9wO_WRHICO0Y97vSf5qy3m3J/view' },
 
-  /* Windows 10 files */
   { name: 'Windows 10 22h2 x64.iso', type: 'file', size: '-', date: '2026-10-24 09:30:00', path: ['Bộ cài đặt hệ điều hành', 'Windows', 'Windows 10'], url: 'https://drive.google.com/uc?export=download&id=1d-uVkkwCqnmnorEj4sr5ZaKAevfms20D' },
   { name: 'Windows 10 22h2 x32.iso', type: 'file', size: '-', date: '2026-10-24 09:31:00', path: ['Bộ cài đặt hệ điều hành', 'Windows', 'Windows 10'], url: 'https://drive.google.com/file/d/1TCaGSBg_EvU05Yyfw7VlNFZ_Z5get5uL/view?usp=sharing' },
   { name: 'Windows 10 21h2 x64.iso', type: 'file', size: '-', date: '2026-10-24 09:32:00', path: ['Bộ cài đặt hệ điều hành', 'Windows', 'Windows 10'], url: 'https://drive.google.com/file/d/1rNJQUtY-FtSi2ZiCNU4JsJ1Ij17JuGsl/view?usp=sharing' },
@@ -523,7 +523,6 @@ const FILES = [
   { name: 'Windows 10 1909 x64.iso', type: 'file', size: '-', date: '2026-10-24 09:36:00', path: ['Bộ cài đặt hệ điều hành', 'Windows', 'Windows 10'], url: 'https://drive.google.com/file/d/1MtGID6Y1HmEwPDQySMAJTBtBf3lWnEfG/view?usp=sharing' },
   { name: 'Windows 10 1909 x32.iso', type: 'file', size: '-', date: '2026-10-24 09:37:00', path: ['Bộ cài đặt hệ điều hành', 'Windows', 'Windows 10'], url: 'https://drive.google.com/file/d/1TCaGSBg_EvU05Yyfw7VlNFZ_Z5get5uL/view?usp=sharing' },
 
-  /* Windows 10 LTSC - LTSB files */
   { name: 'Windows 10 LTSC 2021 x64.iso', type: 'file', size: '-', date: '2026-10-24 09:40:00', path: ['Bộ cài đặt hệ điều hành', 'Windows', 'Windows 10 LTSC - LTSB'], url: 'https://drive.google.com/file/d/19MSQk8I_-dtwc-kDhUWK7VRWS21H-6bP/view?usp=sharing' },
   { name: 'Windows 10 LTSC 2021 x32.iso', type: 'file', size: '-', date: '2026-10-24 09:41:00', path: ['Bộ cài đặt hệ điều hành', 'Windows', 'Windows 10 LTSC - LTSB'], url: 'https://drive.google.com/file/d/1xNsKb9UstcIQpu5jUJJuT2QoA2non8Id/view?usp=sharing' },
   { name: 'Windows 10 LTSC 2019 x64.iso', type: 'file', size: '-', date: '2026-10-24 09:42:00', path: ['Bộ cài đặt hệ điều hành', 'Windows', 'Windows 10 LTSC - LTSB'], url: 'https://drive.google.com/file/d/1TsORJSiM3R2s5pk3Oc3k7yS8AfNRAEaL/view?usp=sharing' },
@@ -533,7 +532,6 @@ const FILES = [
   { name: 'Windows 10 LTSB 2015 x64.iso', type: 'file', size: '-', date: '2026-10-24 09:46:00', path: ['Bộ cài đặt hệ điều hành', 'Windows', 'Windows 10 LTSC - LTSB'], url: 'https://drive.google.com/file/d/1PYFSvvvIGGnSYIEKIGaAtjn2xZXZ4Tja/view?usp=sharing' },
   { name: 'Windows 10 LTSB 2015 x32.iso', type: 'file', size: '-', date: '2026-10-24 09:47:00', path: ['Bộ cài đặt hệ điều hành', 'Windows', 'Windows 10 LTSC - LTSB'], url: 'https://drive.google.com/file/d/1Qma39n_PeG4LjFpfXx04KGB89PCFg7y9/view?usp=sharing' },
 
-  /* Game */
   { name: 'Avatar Frontiers of Pandora', type: 'folder', path: ['Game'], date: '2026-08-11 15:18:43' },
   { name: 'Custom Maid 3D2', type: 'folder', path: ['Game'], date: '2026-08-11 15:18:27' },
   { name: 'GTA-5', type: 'folder', path: ['Game'], date: '2026-05-11 04:03:31' },
@@ -612,8 +610,6 @@ function renderListView() {
     item.path.every((val, index) => val === currentPath[index])
   );
 
-  // Sắp xếp: folder trước file; trong cùng loại ưu tiên "order" (số nhỏ trước),
-  // nếu không có order thì so sánh tên.
   items.sort((a, b) => {
     if (a.type !== b.type) return a.type === 'folder' ? -1 : 1;
     const orderA = (a.order !== undefined) ? a.order : 9999;
@@ -629,7 +625,7 @@ function renderListView() {
       <div class="banner">
         <div class="banner-title">
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
-          DangQuoc Download
+          DangQuoc Downloads
         </div>
         <div class="banner-desc">Kho lưu trữ và chia sẻ tài nguyên, phần mềm số tốc độ cao.</div>
         <ul class="banner-list">
